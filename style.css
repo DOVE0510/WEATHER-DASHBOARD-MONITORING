@@ -966,3 +966,73 @@ body.theme-rain {
     background: linear-gradient(to bottom, #4a90e2, #003f7f); 
     color: #eaf6ff;
 }
+
+/* Fix dashboard content being cut */
+main {
+    padding-bottom: 120px !important;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Ensure entire page scrolls normally */
+body {
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+/* Fix metrics grid pushing out of parent */
+.metrics-grid {
+    padding-bottom: 40px;
+}
+
+/* Fix bottom fade cut effect */
+body.theme-day,
+body.theme-night,
+body.theme-dawn,
+body.theme-bright,
+body.theme-rain {
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.metric-card, 
+.status-card, 
+.hero-weather {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    backdrop-filter: blur(20px) saturate(150%);
+}
+
+.hero-weather {
+    margin-bottom: 50px;
+}
+
+.status-grid {
+    margin-bottom: 40px !important;
+}
+
+.metrics-grid {
+    margin-top: 30px !important;
+}
+.hero-info div {
+    margin: 8px 0;     /* vertical spacing */
+    line-height: 1.4;  /* better readability */
+}
+
+.monitor-item {
+    margin-bottom: 10px; /* space between items */
+}
+.monitor-item {
+    margin: 12px 0;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+}
+.monitor-item {
+    display: flex;
+    justify-content: space-between;
+    width: 200px; /* adjust as needed */
+}
+.monitor-value {
+    text-align: right;
+    min-width: 60px; /* keeps values aligned */
+}
