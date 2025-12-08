@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
      <meta name="viewport" content="width=1280, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <title>NEGAR - Dashboard</title>
+    <title>Weather Monitoring Dashboard</title>
 
     <link rel="stylesheet" href="style.css">
 
@@ -75,16 +75,9 @@
             Status: <span id="ledStatusText">--</span>
         </div>
 
-        <!-- Manual Mode Switch -->
-        <label class="switch">
-            <input type="checkbox" id="manualModeSwitch" onchange="toggleManualMode()">
-            <span class="slider"></span>
-        </label>
-        <p class="switch-label">Manual Mode</p>
-
         <!-- LED ON/OFF Switch -->
         <label class="switch">
-            <input type="checkbox" id="ledPowerSwitch" onchange="manualSetLED()" disabled>
+            <input type="checkbox" id="ledPowerSwitch" onchange="manualSetLED()">
             <span class="slider"></span>
         </label>
         <p class="switch-label">LED Power</p>

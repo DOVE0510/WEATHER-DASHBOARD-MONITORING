@@ -56,7 +56,7 @@ client.on("connect", () => {
     console.log("MQTT Connected");
     client.subscribe("esp32/sensor/#");
     client.subscribe("esp32/led/status");
-    client.subscribe("esp32/mode/status");
+    client.publish("esp32/sensor/rain/get", "1");
 });
 
 /* =======================================================
@@ -114,9 +114,6 @@ client.on("message", (topic, msg) => {
 
         case "esp32/sensor/wind_direction_compass":
             weatherData.windDirectionCompass = value;
-            break;
-        case "esp32/mode/status":
-            manualMode = (value === "manual");
             break;
     }
 
@@ -283,43 +280,13 @@ function updateSensorHealth() {
         document.getElementById("sLED").textContent = ledState ? "🟡 ON" : "⚫ OFF";
 }
 
-/* =======================================================
-   MANUAL MODE
-======================================================= */
-function toggleManualMode() {
-    manualMode = document.getElementById("manualModeSwitch").checked;
-
-    // SEND MODE TO ESP (IMPORTANT)
-    client.publish("esp32/led/mode", manualMode ? "manual" : "auto", { qos: 1 });
-
-    // Immediately apply state locally (fixes UI override)
-    if (manualMode) {
-        document.getElementById("ledPowerSwitch").disabled = false;
-    } else {
-        document.getElementById("ledPowerSwitch").disabled = true;
-    }
-
-    updateUI();
-}
 
 /* =======================================================
    MANUAL LED CONTROL
 ======================================================= */
 function manualSetLED() {
-    if (!manualMode) return;
-
     const isOn = document.getElementById("ledPowerSwitch").checked;
-    client.publish(LED_TOPIC, isOn ? "1" : "0");
-    ledState = isOn;
-
-    updateUI();
-}
-
-/* =======================================================
-   AUTO LED CONTROL
-======================================================= */
-function updateAutoLED() {
-
+    client.publish("esp32/led/control", isOn ? "1" : "0");
 }
 
 /* =======================================================
@@ -332,12 +299,13 @@ function updateUI() {
     updateSensorHealth();
 
     /* LED Status */
-    if (document.getElementById("ledStatusText"))
-        document.getElementById("ledStatusText").textContent =
+            document.getElementById("ledStatusText").textContent =
             ledState ? "🟡 ON" : "⚫ OFF";
 
-    if (manualMode && document.getElementById("ledPowerSwitch"))
-        document.getElementById("ledPowerSwitch").checked = ledState;
+        const sw = document.getElementById("ledPowerSwitch");
+        if (sw.checked !== ledState) {
+            sw.checked = ledState;
+        }
 
     if (!document.getElementById("tempValue")) return;
 
