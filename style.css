@@ -1036,3 +1036,8 @@ body.theme-rain {
     text-align: right;
     min-width: 60px; /* keeps values aligned */
 }
+
+#windArrow {
+    transition: transform 0.6s ease-out;
+}
+
