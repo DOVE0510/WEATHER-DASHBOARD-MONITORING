@@ -243,19 +243,41 @@ function updateHero() {
     const temp = document.getElementById("heroTemp");
     const desc = document.getElementById("heroDesc");
 
-    if (!icon || !temp || !desc) return;
-
     temp.textContent = weatherData.temperature.toFixed(1) + "°C";
 
-    const hour = new Date().getHours();
-    let symbol = "☀", label = "Daytime";
+    const now = new Date();
+    const hour = now.getHours();
 
-    if      (hour < 5 || hour >= 19) symbol = "🌙", label = "Night";
-    else if (hour < 7)               symbol = "🌅", label = "Dawn";
-    else if (hour >= 17)             symbol = "🌇", label = "Sunset";
+    let symbol = "☀";
+    let label = "Daytime";
 
-    if (weatherData.rainIntensity > 70) symbol = "⛈", label = "Heavy Rain";
-    else if (weatherData.rainIntensity > 20) symbol = "🌧", label = "Rainy";
+    // Determine time of day
+    if (hour >= 20 || hour < 5) {
+        symbol = "☀";
+        label = "Daytime";
+    } 
+    else if (hour >= 5 && hour < 7) {
+        symbol = "🌅";
+        label = "Dawn";
+    }
+    else if (hour >= 17 && hour < 20) {
+        symbol = "🌇";
+        label = "Sunset";
+    }
+    else {
+        symbol = "☀";
+        label = "Daytime";
+    }
+
+    // Rain override
+    if (weatherData.rainIntensity > 70) {
+        symbol = "⛈";
+        label = "Heavy Rain";
+    }
+    else if (weatherData.rainIntensity > 20) {
+        symbol = "🌧";
+        label = "Rainy";
+    }
 
     icon.textContent = symbol;
     desc.textContent = label;
